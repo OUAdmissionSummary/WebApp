@@ -5,13 +5,14 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 st.set_page_config(layout="wide")
-# hide_streamlit_style = """
-#             <style>
-#             #MainMenu {visibility: hidden;}
-#             footer {visibility: hidden;}
-#             </style>
-#             """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            .viewerBadge_link__1S137 {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 @st.cache
 def getDataFrame():
@@ -43,8 +44,8 @@ def getDataFrame():
                         '94.7 gr12 sem 1 96.6 gr11': '96.3',
                         'probably 97.5': '97.5',
                         '39/42(IB)': '97',
-                        '97-98ish': '97.5',
-                        '99 (based on g11 final and g12 midterm, not likely to maintain)' : '99',
+                        '97-98ish': '97.5',m
+                        '99 (based on g11 final and g12 idterm, not likely to maintain)' : '99',
                         '99.75 (gr.12 data adv func bio chem)': '99.75',
                         'Top6 98 5 in AP CS and 7 in both IB Math and Physics': '98',
                         'sub 90’s or somethin': '97.5',
@@ -57,6 +58,10 @@ def getDataFrame():
                         '98? 2 IB courses both predicted a 7 and a 5 in AP CS A': '98',
                         '95 (2 g12 final 2 g12 midterm 1 g11 final 1 g11 midterm)': '95',
                         '95 (grade 11 marks) ' : '95',
+                        'idk like around 90': '90',
+                        '90 grade 12 Q1 90 grade 11': '90',
+                        '92 grade 12 midterms 96 grade 11': '94',
+
                         }
 
     # make sure that if the data frame has value that is a key of the dictionary, it will be replaced with the value
