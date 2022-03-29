@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
-#configuration of the page
-# st.set_page_config(layout="wide")
+
+st.set_page_config(layout="wide")
 # hide_streamlit_style = """
 #             <style>
 #             #MainMenu {visibility: hidden;}
