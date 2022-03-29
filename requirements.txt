@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib
+bs4
+requests
+click<=8.0.4
+streamlit
+plotly
