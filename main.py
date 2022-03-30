@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import streamlit as st
 
+
 st.set_page_config(layout="wide")
 hide_streamlit_style = """
             <style>
@@ -159,14 +160,27 @@ def getDataFrame():
                         "94 Final Top 6": '94',
                         "97-98": '97.5',
                         "95 top 6 4g12 2g11": '95',
+                        "91.1 Final Top 6": '91.1',
+                        "99 20 adjustment factor": '99',
+                        "94 ish I think": '94',
+                        "97.6 - 98.1": '97.9',
                         }
 
     # make sure that if the data frame has value that is a key of the dictionary, it will be replaced with the value
-
     df['Average'] = df['Average'].replace(blacklisted_avgs)
     # make average colum where it is equal to 95 top 6 4g12 2g11 equal 95
     df['Average'] = df['Average'].replace('95 top 6 4g12 2g11', '95')
-    # if average colum is less then 80, drop the row
+    # for each row 
+    for index, row in df.iterrows():
+        # if the average column is less then 80
+        try:
+            if float(row['Average']) < 80.0:
+                # drpo it
+                df = df.drop(index)
+        except:
+            continue
+
+
 
 
     return df
@@ -227,14 +241,30 @@ def getDF(df, uni_names, program_names, type_of_applicant):
 
 
 st.title("Ontario Universities Admissions - Data Analysis")
+# notes
+st.markdown("""
+    This app is designed and built by ayo#0957(me) feel free to contact me on discord if you have any questions or comments.
+    Just some general things you need to keep in mind when taking a look at the data here:
+    - The data is from the Ontario Universities and University of Waterloo Applicant servers and is not from any other source.
+    - The data is not updated often and is not guaranteed to be accurate, any person can enter such data.
+    - There we're many conversions I had to make on my end which might make the data less accurate.
+    - The data as of right now only shows 101's as I am still working out conversion factors for 105's. 
+    """)
+# Features
+st.markdown("""
+    This app has the following features:
+    - Filter by University(Just enter the name of the university in the search bar on the left hand side make sure you have no spaces, and consider acrynoms people might use like UW for Waterloo).
+    - Filter by Program(Just enter the name of the program in the search bar on the left hand side make sure you have no spaces, and consider acrynoms people might use like CS for Computer Science).
+    - Sort by any of the columns by clicking on the column name.
+    - Histogram showing frequency of each average.
+    - Admission averages for each specificed data set.
+    """)
 df = getDataFrame()
 # create 2 boxes where user can input multiple inputs
 uni_names = st.sidebar.text_input("University Names(separate by commas no spaces)", "")
 program_names = st.sidebar.text_input("Program Names(separate by commas no spaces)", "")
 # create dropdown two options 105 and 101
 # type_of_admission = st.sidebar.selectbox("Type of applicant", ["All", "101", "105"])
-
-
 
 # split the input into a list
 uni_names = uni_names.split(",")
@@ -257,3 +287,5 @@ st.subheader("Histogram of Admission Rates")
 df_program_stats = df_program_stats.sort_values(by=['Average'], ascending=False)
 fig = px.histogram(df_program_stats, x="Average", title="Histogram of Admission Rates")
 st.plotly_chart(fig)
+
+
