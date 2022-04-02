@@ -16,16 +16,25 @@ hide_streamlit_style = """
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
+def color_df(val):
+    if val == 'Accepted':
+        color = 'green'
+    elif val == 'Rejected':
+        color = 'red'
+    else:
+        color = 'yellow'
+    return f'background-color: {color}'
+
 @st.cache
 def getDataFrame():
+    # get csv from to df https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/edit?usp=sharing
+    df1 = pd.read_csv('https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/export?format=csv')
     # get csv from to df https://docs.google.com/spreadsheets/d/1ZafspjnRJuDjLRKotQ8awLTGcf3RLxrBEh2JtqRGh0Y/edit?usp=sharing
-    df1 = pd.read_csv('https://docs.google.com/spreadsheets/d/1ZafspjnRJuDjLRKotQ8awLTGcf3RLxrBEh2JtqRGh0Y/export?format=csv')
-    # get csv from https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/edit?usp=sharing to df
-    df2 = pd.read_csv('https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/export?format=csv')
+    df2 = pd.read_csv('https://docs.google.com/spreadsheets/d/1ZafspjnRJuDjLRKotQ8awLTGcf3RLxrBEh2JtqRGh0Y/export?format=csv')
     # combine df1 and df2
     df = pd.concat([df1, df2], axis=0)
-        # delete all duplicate rows
-    df = df.drop_duplicates(keep='first')
+    # delete all duplicate rows subset Discord and Program and School
+    df = df.drop_duplicates(subset=['Discord', 'Program', 'School'])
     # Remove all the '%" in the average column
     df['Average'] = df['Average'].str.replace('%', '')
     df['Average'] = df['Average'].str.replace('~', '')
@@ -180,6 +189,9 @@ def getDataFrame():
         except:
             continue
 
+    # color the dataframe based off the status column
+    df.style.apply(color_df, axis=0, subset=['Status'])
+
 
 
 
@@ -278,14 +290,11 @@ st.header("Admission Statistics")
 # get the stats
 AdmissionAverage, AdmissionAverage101 = getStats(df_program_stats, uni_names, program_names)
 # print the stats
-st.write("Average Admission Rate:", AdmissionAverage)
-st.write("Average Admission Rate for 101:", AdmissionAverage101)
+st.write("Admission Average: ", AdmissionAverage)
 # visualize histogram
-st.subheader("Histogram of Admission Rates")
+st.subheader("Histogram of Admission Averages:")
 
 # graph the data sort the x-axis using px.histogram
 df_program_stats = df_program_stats.sort_values(by=['Average'], ascending=False)
 fig = px.histogram(df_program_stats, x="Average", title="Histogram of Admission Rates")
 st.plotly_chart(fig)
-
-
