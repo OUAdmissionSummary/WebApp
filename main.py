@@ -27,7 +27,7 @@ def color_df(val):
 
 @st.cache
 def getDataFrame():
-    # get from to df https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/edit?usp=sharing
+    # get csv from to df https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/edit?usp=sharing
     df1 = pd.read_csv('https://docs.google.com/spreadsheets/d/1A-6z5Fe30C266rK-6TnQm6CNOGCOnjK6s4hwfRIDMhQ/export?format=csv')
     # get csv from to df https://docs.google.com/spreadsheets/d/1ZafspjnRJuDjLRKotQ8awLTGcf3RLxrBEh2JtqRGh0Y/edit?usp=sharing
     df2 = pd.read_csv('https://docs.google.com/spreadsheets/d/1ZafspjnRJuDjLRKotQ8awLTGcf3RLxrBEh2JtqRGh0Y/export?format=csv')
@@ -183,7 +183,7 @@ def getDataFrame():
     for index, row in df.iterrows():
         # if the average column is less then 80
         try:
-            if float(row['Average']) < 80.0:
+            if int(row['Average']) < 80.0:
                 # drpo it
                 df = df.drop(index)
         except:
@@ -208,8 +208,8 @@ def getStats(dfStats, unis, programs):
     # dfStats_accepted105 = dfStats_accepted[dfStats_accepted['Type (101/105)'].str.contains('105')].reset_index(drop=True)
 
     # get avgs
-    dfStats_accepted['Average'] = dfStats_accepted['Average'].astype(float)
-    dfStats_accepted101['Average'] = dfStats_accepted101['Average'].astype(float)
+    dfStats_accepted['Average'] = dfStats_accepted['Average'].astype(int)
+    dfStats_accepted101['Average'] = dfStats_accepted101['Average'].astype(int)
     # dfStats_accepted105['Average'] = dfStats_accepted105['Average'].astype(float)
 
     # print averages
