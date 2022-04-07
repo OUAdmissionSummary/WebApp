@@ -47,7 +47,7 @@ def getDataFrame():
     df = df.dropna(how = 'any', subset=['Average'])
     # if Type (101/105) column is empty, fill it with '101'
     df['Type (101/105)'] = df['Type (101/105)'].fillna('101')
-    
+
 
     blacklisted_avgs = {'99.75 (gr.12 data, adv func, bio, chem)': '99.75',
                         'Top6 98, 5 in AP CS and 7 in both IB Math and Physics': '98',
@@ -183,7 +183,7 @@ def getDataFrame():
     for index, row in df.iterrows():
         # if the average column is less then 80
         try:
-            if float(row['Average']) < 80.0:
+            if float(row['Average']) < 80.0 or row['Average'] == '':
                 # drpo it
                 df = df.drop(index)
         except:
@@ -296,5 +296,12 @@ st.subheader("Histogram of Admission Averages:")
 
 # graph the data sort the x-axis using px.histogram
 df_program_stats = df_program_stats.sort_values(by=['Average'], ascending=False)
-fig = px.histogram(df_program_stats, x="Average", title="Histogram of Admission Rates")
+
+# make every value in the average colum a float
+df_program_stats['Average'] = df_program_stats['Average'].astype(float)
+# round every value in the average column to int
+df_program_stats['Average'] = df_program_stats['Average'].astype(int)
+
+
+fig = px.histogram(df_program_stats, x="Average")
 st.plotly_chart(fig)
