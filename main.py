@@ -289,8 +289,12 @@ st.write(df_program_stats)
 st.header("Admission Statistics")
 # get the stats
 AdmissionAverage, AdmissionAverage101 = getStats(df_program_stats, uni_names, program_names)
+# Rounding Admission Average to 2 decimal places before displaying (Issue #3)
+if "." in AdmissionAverage:
+    num = int(float(AdmissionAverage) * 100)
+    AdmissionAverage = num / 100
 # print the stats
-st.write("Admission Average: ", AdmissionAverage)
+st.write("Admission Average: ", str(AdmissionAverage))
 # visualize histogram
 st.subheader("Histogram of Admission Averages:")
 
