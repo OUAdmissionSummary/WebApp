@@ -173,6 +173,20 @@ def getDataFrame():
                         "99 20 adjustment factor": '99',
                         "94 ish I think": '94',
                         "97.6 - 98.1": '97.9',
+                        "98.55 top 6 U/M  predicted 45/45 IB score - both subject to change after IB exams": '98.55',
+                        "98.83 top 6  predicted 45/45 IB score subject to change after IB exams": '98.83',
+                        "mid 80s": '85',
+                        "90's": '94',
+                        "99 at time of offer": '99',  
+                        "High 80s": '89',  
+                        "94 using grade 11 marks as substitutions for missing marks": '94',
+                        "99.75 (bio chem adv functions data)": '99.75',
+                        "90 (might be a bit lower since they used some gr11 marks)" : '88',
+                        "92-ish": '92',
+                        "89.75-90": '89.75',
+        
+
+
                         }
 
     # make sure that if the data frame has value that is a key of the dictionary, it will be replaced with the value
@@ -289,12 +303,10 @@ st.write(df_program_stats)
 st.header("Admission Statistics")
 # get the stats
 AdmissionAverage, AdmissionAverage101 = getStats(df_program_stats, uni_names, program_names)
-# Rounding Admission Average to 2 decimal places before displaying (Issue #3)
-if "." in AdmissionAverage:
-    num = int(float(AdmissionAverage) * 100)
-    AdmissionAverage = num / 100
 # print the stats
-st.write("Admission Average: ", str(AdmissionAverage))
+# round admissionAverage to 2 decimal places
+st.write("Average Admission Rate: " + str(round(float(AdmissionAverage), 2)) + "%")
+
 # visualize histogram
 st.subheader("Histogram of Admission Averages:")
 
